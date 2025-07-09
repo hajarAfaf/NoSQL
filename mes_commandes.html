@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+{% block title %}Mes Commandes{% endblock %}
+
+{% block content %}
+<h2>📦 Mes Commandes</h2>
+
+{% if commandes %}
+    <ul>
+   {% for commande in commandes %}
+    <li>
+        Commande du {{ commande.date_str }} – Total : {{ commande.total }} MAD
+        <ul>
+            {% for item in commande["items"] %}
+                <li>{{ item.nom }} x{{ item.quantite }} – {{ item.sous_total }} MAD</li>
+            {% endfor %}
+        </ul>
+    </li>
+{% endfor %}
+
+    </ul>
+{% else %}
+    <p>Aucune commande passée.</p>
+{% endif %}
+{% endblock %}
