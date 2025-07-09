@@ -1,0 +1,74 @@
+{% extends 'layout.html' %}
+{% block title %}Dashboard Admin{% endblock %}
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">Tableau de bord administrateur- Historique des commandes</h2>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Produits</h5>
+                    <p class="card-text display-6">{{ nb_produits }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Utilisateurs</h5>
+                    <p class="card-text display-6">{{ nb_utilisateurs }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-warning mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Commandes</h5>
+                    <p class="card-text display-6">{{ nb_commandes }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+
+    <h3>Historique des commandes par utilisateur</h3>
+
+    {% for user in utilisateurs %}
+    <div class="card mb-4">
+        <div class="card-header bg-secondary text-white">
+            <strong>{{ user.nom or user.username or 'Utilisateur' }} (ID: {{ user._id }})</strong>
+        </div>
+        <div class="card-body">
+            {% if user.commandes %}
+            <table class="table table-sm table-bordered">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Articles</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for commande in user.commandes %}
+                    <tr>
+                        <td>{{ commande.date_str }}</td>
+                        <td>
+                            <ul class="mb-0">
+                                {% for item in commande.items %}
+                                <li>{{ item.nom }} x {{ item.quantite }} ({{ item.prix }} MAD)</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                        <td>{{ commande.total }} MAD</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p class="text-muted">Aucune commande passée.</p>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
