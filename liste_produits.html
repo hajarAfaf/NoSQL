@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Liste des Produits - Gocce di Charme</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+    :root {
+      --rose-poudré: rgba(249, 214, 214, 0.8);
+      --vert-pastel: #a8d5ba;
+      --texte-doux: #4a5d50;
+      --blanc-cassé: #fefcfb;
+      --btn-header-bg: #f4b6b6;
+      --btn-header-hover: #e38b8b;
+    }
+
+    * { box-sizing: border-box; }
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--blanc-cassé);
+      color: var(--texte-doux);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    /* Style de la navbar intégrée */
+    .navbar-custom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background-color: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 5;
+    }
+    .logo { 
+      font-size: 1.5rem; 
+      font-weight: 700; 
+      color: var(--rose-poudré);
+      text-decoration: none;
+    }
+    .header-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+    .btn-header {
+      background-color: var(--btn-header-bg);
+      border: none;
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-radius: 1rem;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      text-decoration: none;
+    }
+    .btn-header:hover { 
+      background-color: var(--btn-header-hover); 
+      color: white;
+    }
+
+    main {
+      flex: 1;
+      padding: 2rem;
+      text-align: center;
+    }
+    h1 { color: var(--rose-poudré); margin-bottom: 1rem; }
+
+    .produits {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .produit {
+      background: white;
+      border-radius: 0.8rem;
+      padding: 1rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      transition: transform 0.3s ease;
+    }
+    .produit:hover { transform: translateY(-5px); }
+    .produit img { 
+      width: 100%; 
+      height: 200px;
+      object-fit: cover;
+      border-radius: 0.6rem; 
+    }
+    .produit h3 { margin: 0.5rem 0; font-size: 1.1rem; }
+    .produit .description { 
+      font-size: 0.9rem; 
+      color: #666;
+      height: 60px;
+      overflow: hidden;
+    }
+    .produit .price { 
+      font-weight: bold;
+      color: var(--vert-pastel);
+      margin: 0.5rem 0;
+      font-size: 1.2rem;
+    }
+
+    .btn-details {
+      background-color: var(--rose-poudré);
+      color: white;
+      border: none;
+    }
+    .btn-details:hover {
+      background-color: var(--btn-header-hover);
+      color: white;
+    }
+
+    .no-produits {
+      margin-top: 2rem;
+      font-style: italic;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar intégrée directement -->
+  <nav class="navbar-custom">
+    <a href="{{ url_for('client.accueil') }}" class="logo">Gocce di Charme</a>
+    <div class="header-buttons">
+      {% if session.get('user_id') %}
+        <a href="{{ url_for('auth.logout') }}" class="btn-header">Déconnexion</a>
+        {% if session.get('role') == 'user' %}
+          <a href="{{ url_for('client.mon_panier') }}" class="btn-header">Mon Panier</a>
+        {% endif %}
+      {% else %}
+        <a href="{{ url_for('auth.signup') }}" class="btn-header">Inscription</a>
+        <a href="{{ url_for('auth.login') }}" class="btn-header">Connexion</a>
+      {% endif %}
+    </div>
+  </nav>
+
+  <main>
+    <h1>Nos Produits</h1>
+
+    {% if produits and produits|length > 0 %}
+      <div class="produits">
+        {% for produit in produits %}
+        <div class="produit">
+          <img src="{{ produit.image_url or 'https://via.placeholder.com/300' }}" alt="{{ produit.nom }}">
+          <h3>{{ produit.nom }}</h3>
+          <p class="description">{{ produit.description }}</p>
+          <div class="price">{{ produit.prix }} MAD</div>
+          <a href="/produits/{{ produit._id }}" class="btn btn-details btn-sm">Détails</a>
+          
+          {% if session.get('role') == 'user' %}
+            <button class="btn btn-success btn-sm mt-2" onclick="ouvrirModal('{{ produit._id }}', '{{ produit.nom }}')">
+              🛒 Ajouter au panier
+            </button>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="no-produits">Aucun produit disponible pour le moment. Revenez bientôt !</div>
+    {% endif %}
+  </main>
+
+  <!-- Modal -->
+  <div class="modal fade" id="modalPanier" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form id="panierForm" onsubmit="ajouterAuPanier(event)">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalLabel">Ajouter au panier</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+          </div>
+          <div class="modal-body">
+            <input type="hidden" id="produit_id">
+            <div class="mb-3">
+              <label for="quantite" class="form-label">Quantité :</label>
+              <input type="number" class="form-control" id="quantite" name="quantite" value="1" min="1" required>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Ajouter</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function ouvrirModal(produitId, nom) {
+        document.getElementById('produit_id').value = produitId;
+        const modal = new bootstrap.Modal(document.getElementById('modalPanier'));
+        modal.show();
+    }
+
+    function ajouterAuPanier(event) {
+        event.preventDefault();
+
+        const produitId = document.getElementById('produit_id').value;
+        const quantite = parseInt(document.getElementById('quantite').value);
+
+        fetch(`/panier/${produitId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ quantite: quantite })
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message || 'Ajouté au panier !');
+            bootstrap.Modal.getInstance(document.getElementById('modalPanier')).hide();
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+            alert('Erreur lors de l\'ajout au panier.');
+        });
+    }
+  </script>
+</body>
+</html>
