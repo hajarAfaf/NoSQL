@@ -1,0 +1,161 @@
+{% extends 'layout.html' %}
+
+{% block title %}{{ produit.nom }} - Détails{% endblock %}
+
+{% block content %}
+<div class="card">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="alert alert-warning mt-3">
+          {% for message in messages %}
+            <div>{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <div class="card-body">
+        <h3 class="card-title">{{ produit.nom }}</h3>
+        <p class="card-text"><strong>Description :</strong> {{ produit.description }}</p>
+        <p class="card-text"><strong>Prix :</strong> {{ produit.prix }} MAD</p>
+        <p class="card-text"><strong>Catégorie :</strong> {{ produit.categorie }}</p>
+        <p class="card-text"><strong>Stock :</strong> {{ produit.stock }}</p>
+        {% if produit.popularite %}
+            <p class="card-text"><strong>Popularité :</strong> {{ produit.popularite }}</p>
+        {% endif %}
+        <a href="{{ url_for('client.liste_produits') }}" class="btn btn-secondary">⬅ Retour à la liste</a>
+
+        <form action="{{ url_for('client.ajouter_panier', produit_id=produit._id) }}" method="POST" class="mt-3 d-flex align-items-center gap-3">
+
+            <label for="quantite" class="form-label mb-0"><strong>Quantité :</strong></label>
+
+            <div class="input-group" style="width: 120px;">
+                <button type="button" class="btn btn-outline-secondary" id="btn-minus">−</button>
+                <input type="number" id="quantite" name="quantite" class="form-control text-center" min="1" max="{{ produit.stock }}" value="1" required>
+                <button type="button" class="btn btn-outline-secondary" id="btn-plus">+</button>
+            </div>
+
+            <button type="submit" class="btn btn-success">🛒 Ajouter au panier</button>
+
+        </form>
+        <p class="form-text mt-1">Stock disponible : {{ produit.stock }}</p>
+    </div>
+</div>
+<hr>
+
+<div class="card mt-4">
+    <div class="card-body">
+        <h4>Laisser / Modifier un avis</h4>
+        {% if session.get('user_id') %}
+        <form action="{{ url_for('client.add_or_edit_review', product_id=produit._id) }}" method="POST" class="mb-4">
+
+            <div class="mb-3">
+              <label for="rating" class="form-label">Note (1 à 5) :</label>
+              <div class="stars">
+                    {% for i in range(5, 0, -1) %}
+                        <input type="radio" id="star{{ i }}" name="rating" value="{{ i }}" required
+                            {% if user_review and user_review.rating == i %}checked{% endif %}>
+                        <label for="star{{ i }}" title="{{ i }} étoile{{ 's' if i > 1 }}"></label>
+                    {% endfor %}
+              </div>
+            </div>
+            <div class="mb-3">
+                <label for="comment" class="form-label">Commentaire :</label>
+                <textarea name="comment" id="comment" class="form-control" rows="3" required>{% if user_review %}{{ user_review.comment }}{% endif %}</textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Envoyer</button>
+        </form>
+        {% else %}
+            <p><a href="{{ url_for('auth.login') }}">Connectez-vous</a> pour laisser un avis.</p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="mt-4">
+    <h4>Avis des utilisateurs</h4>
+    <div>
+        {% if reviews %}
+            {% for avis in reviews %}
+            <div class="border p-3 mb-3 rounded">
+                <strong>{{ avis.username or 'Anonyme' }}</strong> - Note : {{ avis.rating }} / 5<br>
+                <small>{{ avis.date_str }}</small>
+                <p>{{ avis.comment }}</p>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>Aucun avis pour ce produit.</p>
+        {% endif %}
+    </div>
+</div>
+
+{% if moyenne %}
+<p class="card-text">
+    <strong>Note moyenne :</strong>
+    <span style="color: #f5b301;">
+        {% for i in range(1, 6) %}
+            {% if i <= moyenne %}
+                ★
+            {% elif i - moyenne < 1 %}
+                ☆
+            {% else %}
+                ☆
+            {% endif %}
+        {% endfor %}
+    </span>
+    <small>({{ moyenne }} / 5)</small>
+</p>
+{% endif %}
+
+{% endblock %}
+
+{% block scripts %}
+
+<style>
+    .stars {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: flex-start;
+        gap: 5px;
+    }
+    .stars input[type="radio"] {
+        display: none;
+    }
+    .stars label {
+        font-size: 2rem;
+        color: #ccc;
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+    .stars input[type="radio"]:checked ~ label,
+    .stars label:hover,
+    .stars label:hover ~ label {
+        color: #f5b301;
+    }
+    .stars label::before {
+        content: "★";
+    }
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const btnPlus = document.getElementById("btn-plus");
+    const btnMinus = document.getElementById("btn-minus");
+    const inputQuantite = document.getElementById("quantite");
+    const max = parseInt(inputQuantite.getAttribute("max"));
+
+    btnPlus.addEventListener("click", () => {
+        let current = parseInt(inputQuantite.value);
+        if (current < max) {
+            inputQuantite.value = current + 1;
+        }
+    });
+
+    btnMinus.addEventListener("click", () => {
+        let current = parseInt(inputQuantite.value);
+        if (current > 1) {
+            inputQuantite.value = current - 1;
+        }
+    });
+});
+</script>
+{% endblock %}
