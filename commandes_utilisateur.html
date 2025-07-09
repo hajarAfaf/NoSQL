@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Commandes de l'utilisateur</title>
+</head>
+<body>
+    <h1>Commandes de l'utilisateur {{ utilisateur_id }}</h1>
+    <ul>
+        {% for commande in commandes %}
+            <li>Date : {{ commande.date }} - Total : {{ commande.total }} MAD</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
