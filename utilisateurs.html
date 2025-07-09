@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+{% block title %}Utilisateurs{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Liste des utilisateurs</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Email</th>
+                <th>Rôle</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.nom }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.role }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
