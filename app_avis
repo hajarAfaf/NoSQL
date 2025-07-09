@@ -1,0 +1,95 @@
+<!-- templates/avis.html -->
+{% extends 'layout.html' %}
+
+{% block title %}Avis Clients{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="text-center mb-4">📝 Vos Avis Comptent</h2>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow mb-5">
+                <div class="card-body">
+                    <h4 class="card-title mb-4">Donnez votre avis sur notre boutique</h4>
+
+                    <form method="POST" action="{{ url_for('client.app_avis') }}">
+                        <div class="mb-3">
+                            <label for="nom" class="form-label">Nom (optionnel)</label>
+                            <input type="text" class="form-control" id="nom" name="nom" placeholder="Votre nom">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Note</label>
+                            <div class="rating">
+                                {% for i in range(5, 0, -1) %}
+                                    <input type="radio" id="star{{ i }}" name="note" value="{{ i }}" required>
+                                    <label for="star{{ i }}" title="{{ i }} étoiles">★</label>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="commentaire" class="form-label">Commentaire</label>
+                            <textarea class="form-control" id="commentaire" name="commentaire" rows="3" required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">
+                            Envoyer l'avis
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <h3 class="text-center mb-4">💬 Avis de nos clients</h3>
+
+            {% if avis_list %}
+                <div class="row row-cols-1 g-4">
+                    {% for avis in avis_list %}
+                    <div class="col">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <h5 class="card-title mb-0">{{ avis.nom }}</h5>
+                                    <div class="text-warning">
+                                        {% for i in range(avis.note) %}★{% endfor %}
+                                        {% for i in range(5 - avis.note) %}☆{% endfor %}
+                                    </div>
+                                </div>
+                                <p class="card-text">{{ avis.commentaire }}</p>
+                                <small class="text-muted">
+                                    Posté le {{ avis.date_str }}
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-center text-muted">Aucun avis pour le moment. Soyez le premier !</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .rating {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: flex-end;
+    }
+    .rating input {
+        display: none;
+    }
+    .rating label {
+        font-size: 1.5rem;
+        color: #ddd;
+        cursor: pointer;
+    }
+    .rating input:checked ~ label,
+    .rating label:hover,
+    .rating label:hover ~ label {
+        color: #ffc107;
+    }
+</style>
+{% endblock %}
