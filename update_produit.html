@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Modifier un produit</title>
+</head>
+<body>
+    <h1>Modifier le produit : {{ produit.nom }}</h1>
+    <form method="post">
+        Nom : <input type="text" name="nom" value="{{ produit.nom }}"><br>
+        Description : <textarea name="description">{{ produit.description }}</textarea><br>
+        Prix : <input type="number" step="0.01" name="prix" value="{{ produit.prix }}"><br>
+        Stock : <input type="number" name="stock" value="{{ produit.stock }}"><br>
+        Catégorie : <input type="text" name="categorie" value="{{ produit.categorie }}"><br>
+        Popularité : <input type="number" step="0.01" name="popularite" value="{{ produit.popularite }}"><br>
+        <button type="submit">Mettre à jour</button>
+    </form>
+</body>
+</html>
