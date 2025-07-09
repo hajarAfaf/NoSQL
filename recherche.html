@@ -1,0 +1,77 @@
+{% extends 'layout.html' %}
+
+{% block title %}Recherche de produits{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Rechercher des produits</h2>
+
+<button class="btn btn-outline-secondary mb-3" type="button" onclick="toggleFilters()">🔍 Filtres</button>
+
+<div class="row">
+    <div class="col-md-3">
+        <form id="searchForm" method="get" action="/recherche" id="filterForm" style="display: none;">
+           <div class="mb-3">
+    <label for="categorie" class="form-label">Catégorie</label>
+    <select class="form-select" name="categorie" id="categorie" onchange="submitForm()">
+        <option value="">Toutes les catégories</option>
+        {% for cat in categories %}
+            <option value="{{ cat.nom }}" {% if request.args.get('categorie') == cat.nom %}selected{% endif %}>
+                {{ cat.nom }}
+            </option>
+        {% endfor %}
+    </select>
+</div>
+
+            <div class="mb-3">
+                <label for="min_prix" class="form-label">Prix min</label>
+                <input type="number" class="form-control" name="min_prix" id="min_prix" onchange="submitForm()" value="{{ request.args.get('min_prix', '') }}">
+            </div>
+            <div class="mb-3">
+                <label for="max_prix" class="form-label">Prix max</label>
+                <input type="number" class="form-control" name="max_prix" id="max_prix" onchange="submitForm()" value="{{ request.args.get('max_prix', '') }}">
+            </div>
+            <div class="mb-3">
+                <label for="min_popularite" class="form-label">Popularité min</label>
+                <input type="number" step="0.1" class="form-control" name="min_popularite" id="min_popularite" onchange="submitForm()" value="{{ request.args.get('min_popularite', '') }}">
+            </div>
+        </form>
+    </div>
+
+    <div class="col-md-9">
+        {% if produits %}
+            <h4 class="mb-3">Résultats :</h4>
+            <div class="row">
+                {% for p in produits %}
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ p.nom }}</h5>
+                            <p class="card-text">{{ p.description }}</p>
+                            <p class="card-text"><strong>{{ p.prix }} MAD</strong> - {{ p.categorie }}</p>
+                            {% if p.popularite %}
+                            <p class="card-text"><small>Popularité : {{ p.popularite }}</small></p>
+                            {% endif %}
+                            <a href="{{ url_for('client.produit_detail', id=p._id) }}" class="btn btn-outline-primary">Voir détails</a>
+
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Aucun produit trouvé.</p>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    function submitForm() {
+        document.getElementById("searchForm").submit();
+    }
+
+    function toggleFilters() {
+        const form = document.getElementById("searchForm");
+        form.style.display = form.style.display === "none" ? "block" : "none";
+    }
+</script>
+{% endblock %}
