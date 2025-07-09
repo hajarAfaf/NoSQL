@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajouter un produit</title>
+</head>
+<body>
+    <h1>Ajout d'un nouveau produit</h1>
+    {% if message %}<p>{{ message }}</p>{% endif %}
+    <form method="post">
+        Nom : <input type="text" name="nom"><br>
+        Description : <textarea name="description"></textarea><br>
+        Prix : <input type="number" step="0.01" name="prix"><br>
+        Stock : <input type="number" name="stock"><br>
+        Catégorie : <input type="text" name="categorie"><br>
+        Popularité : <input type="number" step="0.01" name="popularite"><br>
+        <button type="submit">Ajouter</button>
+    </form>
+</body>
+</html>
