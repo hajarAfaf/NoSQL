@@ -1,0 +1,229 @@
+{% extends 'layout.html' %}
+
+{% block title %}Paiement - Gocce di Charme{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="page-title">🌸 Paiement </h1>
+
+    <div class="checkout-grid">
+        <div class="order-summary">
+            <h2><i class="bi bi-cart-check"></i> Votre Commande</h2>
+            
+            <div class="order-items">
+                {% for item in panier["items"] %}
+                <div class="order-item">
+                    <img src="{{ item.image_url or '/static/images/default-product.jpg' }}" 
+                         alt="{{ item.nom }}" class="item-image">
+                    <div class="item-details">
+                        <h3>{{ item.nom }}</h3>
+                        <p>{{ item.quantite }} x {{ item.prix }} MAD</p>
+                    </div>
+                    <div class="item-subtotal">{{ item.sous_total }} MAD</div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="order-totals">
+                <div class="total-row">
+                    <span>Sous-total:</span>
+                    <span>{{ total - livraison.frais }} MAD</span>
+                </div>
+                <div class="total-row">
+                    <span>Livraison ({{ livraison.methode }}):</span>
+                    <span>{{ livraison.frais }} MAD</span>
+                </div>
+                <div class="total-row grand-total">
+                    <span>Total:</span>
+                    <span>{{ total }} MAD</span>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="payment-form">
+            <h2><i class="bi bi-credit-card"></i> Paiement</h2>
+            
+            <form method="POST">
+                <div class="payment-methods">
+                    <div class="payment-method selected" data-method="carte">
+                        <i class="bi bi-credit-card-2-front"></i>
+                        <span>Carte Bancaire</span>
+                    </div>
+                    <div class="payment-method" data-method="paiement_livraison">
+                        <i class="bi bi-truck"></i>
+                        <span>Paiement à la livraison</span>
+                    </div>
+                    <input type="hidden" name="methode_paiement" id="methode_paiement" value="carte">
+                </div>
+
+                <div id="carte-details" class="payment-details active">
+                    <div class="form-group">
+                        <label for="card-number">Numéro de carte</label>
+                        <input type="text" id="card-number" placeholder="1234 5678 9012 3456" class="card-input">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="card-expiry">Date d'expiration</label>
+                            <input type="text" id="card-expiry" placeholder="MM/AA" class="card-input">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="card-cvc">CVV</label>
+                            <input type="text" id="card-cvc" placeholder="123" class="card-input">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="card-name">Nom sur la carte</label>
+                        <input type="text" id="card-name" placeholder="Nom Prénom" class="card-input">
+                    </div>
+                </div>
+
+                <div id="paypal-details" class="payment-details">
+                    <p>Vous serez redirigé vers PayPal pour finaliser votre paiement.</p>
+                </div>
+
+                <div class="form-actions">
+                    <a href="{{ url_for('client.livraison') }}" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left"></i> Retour
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        Payer maintenant <i class="bi bi-lock"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .checkout-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+    }
+
+    .order-summary, .payment-form {
+        background: white;
+        padding: 2rem;
+        border-radius: 1rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .order-summary h2, .payment-form h2 {
+        color: var(--rose);
+        margin-top: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .order-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .item-image {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 0.5rem;
+    }
+
+    .item-details {
+        flex-grow: 1;
+    }
+
+    .item-subtotal {
+        font-weight: bold;
+    }
+
+    .order-totals {
+        margin-top: 1.5rem;
+        padding-top: 1rem;
+        border-top: 2px dashed #eee;
+    }
+
+    .total-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+    }
+
+    .grand-total {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: var(--rose);
+        margin-top: 1rem;
+    }
+
+    .payment-methods {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .payment-method {
+        flex: 1;
+        border: 2px solid #eee;
+        padding: 1rem;
+        text-align: center;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .payment-method.selected {
+        border-color: var(--rose);
+        background: rgba(249, 214, 214, 0.1);
+    }
+
+    .payment-method i {
+        font-size: 1.5rem;
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+
+    .payment-details {
+        display: none;
+    }
+
+    .payment-details.active {
+        display: block;
+    }
+
+    .card-input {
+        width: 100%;
+        padding: 0.8rem;
+        border: 1px solid #ddd;
+        border-radius: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+        .checkout-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<script>
+    // Gestion des méthodes de paiement
+    document.querySelectorAll('.payment-method').forEach(method => {
+        method.addEventListener('click', function() {
+            document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
+            this.classList.add('selected');
+            
+            const method = this.dataset.method;
+            document.getElementById('methode_paiement').value = method;
+            
+            document.querySelectorAll('.payment-details').forEach(d => d.classList.remove('active'));
+            document.getElementById(`${method}-details`).classList.add('active');
+        });
+    });
+</script>
+{% endblock %}
