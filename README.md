@@ -64,35 +64,27 @@ Auth	Sessions / cookies
 
 ## 📁 Project Structure <a name="project-structure"></a>
 
-<style>
-  .tree {
-    font-family: Consolas, monospace;
-    white-space: pre;
-    line-height: 1.4;
-    font-size: 15px;
-  }
-</style>
-
-<div class="tree">
 📁 project/
-│   ├── 📄 app.py
-│   ├── 📄 config.py
-│   ├── 📄 requirements.txt
-│   ├── 📁 templates/
-│   │      ├── 📄 accueil.html
-│   │      ├── 📄 login.html
-│   │      ├── 📄 signup.html
-│   │      ├── 📄 liste_produits.html
-│   │      ├── 📄 produit_detail.html
-│   │      ├── 📄 mon_panier.html
-│   │      ├── 📄 paiement.html
-│   │      ├── 📄 dashboard.html
-│   │      ├── 📄 update_produit.html
-│   │      └── 📄 utilisateurs.html
-│   └── 📁 static/
-│          ├── 📁 css/
-│          └── 📁 js/
-</div>
+│
+├── 📄 app.py
+├── 📄 config.py
+├── 📄 requirements.txt
+│
+├── 📁 templates/
+│ ├── 📄 accueil.html
+│ ├── 📄 login.html
+│ ├── 📄 signup.html
+│ ├── 📄 liste_produits.html
+│ ├── 📄 produit_detail.html
+│ ├── 📄 mon_panier.html
+│ ├── 📄 paiement.html
+│ ├── 📄 dashboard.html
+│ ├── 📄 update_produit.html
+│ └── 📄 utilisateurs.html
+│
+└── 📁 static/
+├── 📁 css/
+└── 📁 js/
 
 [↑ Back to Top](#table-of-contents)
 
