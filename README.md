@@ -1,4 +1,4 @@
-<div align="center">🛒 <strong>Boutique en Ligne – GOCCE DE CHARME</strong></div>
+<div align="center" style="font-family: 'Georgia', serif;" color: #3498db;"> <h1 style="font-size: 10em; margin-bottom: 180px;"> Boutique en Ligne – GOCCE DE CHARME:<br> </h1> </div>
 
 📌 Table of Contents <a name="table-of-contents"></a>
 
