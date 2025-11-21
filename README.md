@@ -1,37 +1,20 @@
 <div align="center" style="font-family: 'Georgia', serif;" color: #3498db;"> <h1 style="font-size: 10em; margin-bottom: 180px;"> Boutique en Ligne – GOCCE DE CHARME:<br> </h1> </div>
 
-📌 Table of Contents <a name="table-of-contents"></a>
+<div align="right" style="font-family: 'Georgia', serif;" color: #8e44ad; font-style: italic; font-weight: bold; margin-right: 15%; margin-top: 10px; font-size: 20em;"> Realised by : AFAF Hajar & EZZERROUTI Salwa </div> &nbsp;
 
-📝 Project Overview
+## 📌 Table of Contents <a name="table-of-contents"></a>
 
-✨ Features
+1. 🌀 [Project Overview](#project-overview)
+2. 🌌 [Features](#features)
+3. 🚀 [Technologies Used](#technologies-used)
+4. 🧑‍💻 [Project Structure](#project-srtucture)
+5. 🚀 [Installation](#installation)
+6. 📝 [How It Works](#how-it-works)
+7. 👤 [Author](#author)
 
-🧱 Technologies Used
+## 📝 Project Overview <a name="project-overview"></a>
 
-📁 Project Structure
-
-🚀 Installation
-
-🌀 How It Works
-
-📸 Screenshots
-
-👤 Author
-
-📝 Project Overview <a name="project-overview"></a>
-
-Cette application est une boutique en ligne complète permettant :
-
-d’afficher des produits
-
-gérer un panier
-
-passer une commande
-
-gérer les avis
-
-administrer les produits, commandes et utilisateurs
-
+Cette application est une boutique en ligne complète permettant :d’afficher des produits, gérer un panier, passer une commande, gérer les avis, administrer les produits, commandes et utilisateurs
 Elle utilise :
 
 HTML/CSS/JavaScript → Interface utilisateur
@@ -40,9 +23,9 @@ Flask (Python) → Backend & API
 
 MongoDB Atlas (Cloud) → Base de données NoSQL
 
-↑ Back to Top
+[↑ Back to Top](#table-of-contents)
 
-✨ Features <a name="features"></a>
+## ✨ Features <a name="features"></a>
 👤 Côté Utilisateur
 
 Inscription / Connexion
@@ -67,9 +50,9 @@ Gérer commandes
 
 Dashboard
 
-↑ Back to Top
+[↑ Back to Top](#table-of-contents)
 
-🧱 Technologies Used <a name="technologies-used"></a>
+## 🧱 Technologies Used <a name="technologies-used"></a>
 Layer	Technologie
 Frontend	HTML, CSS, JavaScript
 Backend	Python Flask
@@ -77,9 +60,9 @@ Database	MongoDB Atlas
 API	Flask REST
 Auth	Sessions / cookies
 
-↑ Back to Top
+[↑ Back to Top](#table-of-contents)
 
-📁 Project Structure <a name="project-structure"></a>
+## 📁 Project Structure <a name="project-structure"></a>
 project/
 │── app.py
 │── config.py
@@ -102,11 +85,11 @@ project/
     └── js/
 
 
-↑ Back to Top
+[↑ Back to Top](#table-of-contents)
 
-🚀 Installation <a name="installation"></a>
+## 🚀 Installation <a name="installation"></a>
 1️⃣ Cloner le projet
-git clone https://github.com/<username>/<repo>.git
+git clone https://github.com/hajarAfaf/Gocce_De_Charme.git
 cd <repo>
 
 2️⃣ Installer les dépendances
@@ -121,12 +104,11 @@ MONGO_URI = "mongodb+srv://<username>:<password>@cluster.mongodb.net/"
 4️⃣ Lancer Flask
 python app.py
 
+➡️ Accès : adresse locale
 
-➡️ Accès : http://127.0.0.1:5000/
+[↑ Back to Top](#table-of-contents)
 
-↑ Back to Top
-
-🌀 How It Works <a name="how-it-works"></a>
+## 🌀 How It Works <a name="how-it-works"></a>
 
 Le frontend envoie les requêtes au backend Flask
 
@@ -138,16 +120,12 @@ Les commandes sont stockées en base
 
 L’interface admin permet d’agir sur tout le système
 
-↑ Back to Top
+[↑ Back to Top](#table-of-contents)
 
-📸 Screenshots <a name="screenshots"></a>
-<div align="center"> <img src="images/home.png" width="800"> </div>
 
-↑ Back to Top
+## 👤 Author <a name="author"></a>
 
-👤 Author <a name="author"></a>
-
-Ton Nom
+AFAF Hajar
 
 GitHub : https://github.com/
 <username>
