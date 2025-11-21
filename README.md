@@ -100,7 +100,7 @@ pip install -r requirements.txt
 
 Dans config.py :
 
-MONGO_URI = "mongodb+srv://<username>:<password>@cluster.mongodb.net/"
+MONGO_URI = "mongodb+srv://username:password@cluster.mongodb.net/"
 
 4️⃣ Lancer Flask
 python app.py
@@ -128,7 +128,6 @@ L’interface admin permet d’agir sur tout le système
 
 AFAF Hajar
 
-GitHub : https://github.com/
-<username>
+GitHub : https://github.com/hajarAfaf
 
-↑ Back to Top
+[↑ Back to Top](#table-of-contents)
