@@ -91,7 +91,7 @@ Auth	Sessions / cookies
 ## 🚀 Installation <a name="installation"></a>
 1️⃣ Cloner le projet
 git clone https://github.com/hajarAfaf/Gocce_De_Charme.git
-cd <repo>
+cd Gocce_De_Charme
 
 2️⃣ Installer les dépendances
 pip install -r requirements.txt
