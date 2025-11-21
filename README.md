@@ -63,17 +63,13 @@ Auth	Sessions / cookies
 [↑ Back to Top](#table-of-contents)
 
 ## 📁 Project Structure <a name="project-structure"></a>
+
 <style>
   .tree {
     font-family: Consolas, monospace;
     white-space: pre;
     line-height: 1.4;
-  }
-  .folder::before {
-    content: "📁 ";
-  }
-  .file::before {
-    content: "📄 ";
+    font-size: 15px;
   }
 </style>
 
@@ -97,7 +93,6 @@ Auth	Sessions / cookies
 │          ├── 📁 css/
 │          └── 📁 js/
 </div>
-
 
 [↑ Back to Top](#table-of-contents)
 
